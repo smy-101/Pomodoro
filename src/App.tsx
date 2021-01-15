@@ -5,6 +5,9 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import {Login} from './views/Login';
+import {SignUp} from './views/SignUp';
+import {HomePage} from './views/HomePage';
 
 function App() {
   return (
@@ -14,25 +17,25 @@ function App() {
           <nav>
             <ul>
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/">Index</Link>
               </li>
               <li>
-                <Link to="/about">About</Link>
+                <Link to="/login">Login</Link>
               </li>
               <li>
-                <Link to="/users">Users</Link>
+                <Link to="/signup">SignUp</Link>
               </li>
             </ul>
           </nav>
           <Switch>
-            <Route path="/about">
-              <About />
+            <Route path="/login">
+              <Login/>
             </Route>
-            <Route path="/users">
-              <Users />
+            <Route path="/signup">
+              <SignUp/>
             </Route>
             <Route path="/">
-              <Home />
+              <HomePage/>
             </Route>
           </Switch>
         </div>
@@ -41,16 +44,10 @@ function App() {
   );
 }
 
-function Home() {
-  return <h2>Home</h2>;
-}
 
-function About() {
-  return <h2>About</h2>;
-}
 
-function Users() {
-  return <h2>Users</h2>;
-}
+
+
+
 
 export default App;
