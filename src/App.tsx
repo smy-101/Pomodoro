@@ -34,9 +34,8 @@ function App() {
             <Route path="/signup">
               <SignUp/>
             </Route>
-            <Route path="/">
-              <HomePage/>
-            </Route>
+            <Route exact={true} path="/" component={HomePage}/>
+
           </Switch>
         </div>
       </Router>
