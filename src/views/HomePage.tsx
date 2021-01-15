@@ -1,7 +1,12 @@
 import React from 'react';
+import {Button} from 'antd';
 
 function HomePage() {
-    return <h2>HomePage</h2>;
+    return (
+        <div>
+            <Button>登录</Button>
+        </div>
+    );
 }
 
 export {HomePage};
