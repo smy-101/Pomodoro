@@ -2,6 +2,24 @@ import React from 'react';
 import {UserOutlined} from '@ant-design/icons';
 import {Input, Button} from 'antd';
 import axios from '../config/axios';
+import styled from 'styled-components';
+import {Link} from 'react-router-dom';
+
+const Wrapper = styled.div`
+  max-width: 500px;
+  margin: auto;
+  padding: 50px 0;
+  >*{
+    margin: 10px 0;
+  }
+  >h1{
+    text-align: center;
+  }
+  >button{
+    width: 100%;
+  }
+`
+
 
 interface Props {
     account: string,
@@ -20,15 +38,18 @@ class SignUp extends React.Component<any, Props> {
     }
 
 
-    onChangeAccount = (e: { target: { value: any; }; }) => {
-        this.setState({account: e.target.value});
-    };
-    onChangePassword = (e: { target: { value: any; }; }) => {
-        this.setState({password: e.target.value});
-    };
-    onChangePasswordConformation = (e: { target: { value: any; }; }) => {
-        this.setState({passwordConformation: e.target.value});
-    };
+    onChangeAccount = (e: { target: { value: string; }; }) => {
+        console.log(e.target.value);
+        this.setState({ account: e.target.value });
+    }
+
+    onChangePassword = (e: { target: { value: string; }; }) => {
+        this.setState({ password: e.target.value });
+    }
+
+    onChangePasswordConformation = (e: { target: { value: string; }; }) => {
+        this.setState({ passwordConformation: e.target.value });
+    }
     submit = async () => {
         const { account,password,passwordConformation } = this.state;
         try{
@@ -47,7 +68,8 @@ class SignUp extends React.Component<any, Props> {
     public render() {
         const {account, password, passwordConformation} = this.state;
         return (
-            <div>
+            <Wrapper>
+                <h1>番茄TODO用户注册</h1>
                 <Input placeholder="请输入用户名" allowClear
                        prefix={<UserOutlined/>}
                        value={account}
@@ -60,8 +82,9 @@ class SignUp extends React.Component<any, Props> {
                     value={passwordConformation}
                     onChange={this.onChangePasswordConformation}
                     placeholder="请确认密码"/>
-                <Button onClick={this.submit}>注册</Button>
-            </div>
+                <Button type="primary" onClick={this.submit}>注册</Button>
+                <p>如果您已有帐号，请在此<Link to="/login">登录</Link></p>
+            </Wrapper>
         );
     }
 }
