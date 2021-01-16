@@ -1,6 +1,11 @@
 import React from 'react';
-import {Button} from 'antd';
 import axios from '../config/axios';
+import styled from 'styled-components';
+import Drop from '../components/Drop';
+
+const Wrapper = styled.div`
+
+`
 
 interface IRouter {
     history: any;
@@ -11,7 +16,6 @@ interface IIndexState {
 }
 
 class HomePage extends React.Component<IRouter, IIndexState> {
-
     constructor(props: any) {
         super(props);
         this.state = {
@@ -28,19 +32,21 @@ class HomePage extends React.Component<IRouter, IIndexState> {
         this.setState({user: response.data});
     };
 
-    logout = () => {
-        localStorage.setItem('x-token', '');
-        this.props.history.push('/login');
-    };
+    // logout = () => {
+    //     localStorage.setItem('x-token', '');
+    //     this.props.history.push('/login');
+    // };
 
     render() {
         return (
-            <div className="Component">
-                <p>欢迎，{this.state.user && this.state.user.account}</p>
-                <Button onClick={this.logout}>注销</Button>
+            <div className="HomePage">
+                <Wrapper>
+                    <span>LOGO</span>
+                    <Drop name={this.state.user && this.state.user.account}/>
+                </Wrapper>
             </div>
         );
     }
 }
 
-export {HomePage}
+export {HomePage};
