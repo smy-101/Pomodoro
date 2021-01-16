@@ -28,12 +28,10 @@ function App() {
             </ul>
           </nav>
           <Switch>
-            <Route path="/login">
-              <Login/>
-            </Route>
-            <Route path="/signup">
-              <SignUp/>
-            </Route>
+            <Route exact={true} path="/login" component={Login}/>
+
+            <Route exact={true} path="/signup" component={SignUp}/>
+
             <Route exact={true} path="/" component={HomePage}/>
 
           </Switch>

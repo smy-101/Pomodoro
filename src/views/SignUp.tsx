@@ -59,6 +59,7 @@ class SignUp extends React.Component<any, Props> {
                 password_confirmation:passwordConformation
             })
             console.log('success');
+            this.props.history.push('/')
         }catch(e){
             throw new Error(e)
         }
