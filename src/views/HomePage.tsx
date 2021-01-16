@@ -1,19 +1,46 @@
 import React from 'react';
 import {Button} from 'antd';
+import axios from '../config/axios';
 
-interface Props {
-    history :any;
+interface IRouter {
+    history: any;
 }
 
-const HomePage:React.FC<Props>=(props)=>{
-    const login =()=>{
-        props.history.push('/login')
+interface IIndexState {
+    user: any
+}
+
+class HomePage extends React.Component<IRouter, IIndexState> {
+
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            user: {}
+        };
     }
-    return (
-        <div>
-            <Button onClick={login}>登录</Button>
-        </div>
-    )
+
+    async componentDidMount() {
+        await this.getMe();
+    }
+
+    getMe = async () => {
+        const response = await axios.get('me');
+        this.setState({user: response.data});
+    };
+
+    logout = () => {
+        localStorage.setItem('x-token', '');
+        this.props.history.push('/login');
+    };
+
+    render() {
+        return (
+            <div className="Component">
+                <p>欢迎，{this.state.user && this.state.user.account}</p>
+                <Button onClick={this.logout}>注销</Button>
+            </div>
+        );
+    }
 }
 
-export {HomePage};
+export {HomePage}
