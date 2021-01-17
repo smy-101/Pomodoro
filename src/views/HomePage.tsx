@@ -6,12 +6,18 @@ import Todos from '../components/TODO/Todos';
 
 const Wrapper = styled.div`
   max-width: 1000px;
+  margin: 0 auto;
   >header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ddd;
-    padding: 14px;
+    padding: 16px 0;
+  }
+  >main{
+    padding: 16px 0;
+    display: flex;
+    justify-content: space-between;
   }
 `;
 

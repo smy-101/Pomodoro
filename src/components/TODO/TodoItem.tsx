@@ -10,6 +10,9 @@ const Wrapper = styled.div`
   align-items: center;
   border-bottom: 1px solid #ddd;
   &:hover{background: #f9f9f9}
+  &:first-child{
+    border-top: 1px solid #ddd;
+  }
   &.editing{background: #fff3d2}
   &.completed{
     >.text{
