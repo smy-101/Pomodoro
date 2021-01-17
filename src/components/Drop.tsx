@@ -23,7 +23,7 @@ const menu = (
 );
 
 interface Props {
-    name?: string;
+    name: string;
 }
 
 class Drop extends React.Component<Props, any> {

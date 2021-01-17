@@ -24,7 +24,7 @@ interface IIndexState {
 }
 
 class HomePage extends React.Component<IRouter, IIndexState> {
-    constructor(props: any) {
+    constructor(props: IRouter) {
         super(props);
         this.state = {
             user: {}

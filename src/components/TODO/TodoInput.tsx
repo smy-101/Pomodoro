@@ -3,7 +3,7 @@ import {Input} from 'antd';
 import {EnterOutlined} from '@ant-design/icons';
 
 interface ITodoInputState {
-    description: string;
+    description: any;
 }
 
 interface ITodoInputProps {
@@ -12,7 +12,7 @@ interface ITodoInputProps {
 
 
 class TodoInput extends React.Component<ITodoInputProps, ITodoInputState> {
-    constructor(props: any) {
+    constructor(props: ITodoInputProps) {
         super(props);
         this.state = {
             description: ''
