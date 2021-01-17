@@ -21,18 +21,16 @@ const menu = (
         </Menu.Item>
     </Menu>
 );
+
 interface Props {
     name?: string;
 }
 
 class Drop extends React.Component<Props, any> {
-    constructor(props: any) {
-        super(props);
-    }
 
 
     public render() {
-        const { name } = this.props;
+        const {name} = this.props;
         return (
             <div>
                 <Dropdown overlay={menu}>

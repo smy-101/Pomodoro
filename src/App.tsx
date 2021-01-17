@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
     Link,
@@ -12,8 +11,6 @@ import {HomePage} from './views/HomePage';
 function App() {
     return (
         <div className="App">
-            <Router>
-                <div>
                     <nav>
                         <ul>
                             <li>
@@ -36,8 +33,6 @@ function App() {
 
                     </Switch>
                 </div>
-            </Router>
-        </div>
     );
 }
 
