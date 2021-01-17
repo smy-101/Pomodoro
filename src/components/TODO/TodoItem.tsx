@@ -1,6 +1,42 @@
 import React from 'react';
 import {Checkbox} from 'antd';
 import {DeleteOutlined, EnterOutlined} from '@ant-design/icons';
+import styled from 'styled-components';
+import classNames from 'classnames'
+
+const Wrapper = styled.div`
+  display: flex;
+  padding: 8px 0 8px 8px;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  &:hover{background: #f9f9f9}
+  &.editing{background: #fff3d2}
+  &.completed{
+    >.text{
+      text-decoration: line-through;
+      color: #a9a9a9;
+    }
+  }
+  >.editing,>.text{
+    padding: 0 8px;
+    flex: 1;
+  }
+  >.editing{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    >input{
+      border: 0;
+      outline: none;
+      background: transparent;
+    }
+    >.iconWrapper>.anticon{
+      margin-left: 4px;
+      color: #a9a9a9;
+      cursor: pointer;
+    }
+  }
+`
 
 interface ITodoItemProps {
     id: number
@@ -52,16 +88,22 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
             </div>
         );
 
-        const Text = <span onDoubleClick={this.toEditing}>{this.props.description}</span>;
+        const Text = <span className="text" onDoubleClick={this.toEditing}>{this.props.description}</span>;
+        const todoItemClass=classNames({
+            TodoItem:true,
+            editing:this.props.editing,
+            completed:this.props.completed
+        })
+
         return (
-            <div>
+            <Wrapper className={todoItemClass}>
                 <Checkbox checked={this.props.completed}
                           onChange={e => this.update({completed: e.target.checked})}
                 />
                 {
                     this.props.editing ? Editing : Text
                 }
-            </div>
+            </Wrapper>
         );
     }
 }
