@@ -1,8 +1,8 @@
 import React from 'react';
 import {
+    BrowserRouter as Router,
     Switch,
     Route,
-    Link,
 } from 'react-router-dom';
 import {Login} from './views/Login';
 import {SignUp} from './views/SignUp';
@@ -11,19 +11,8 @@ import {HomePage} from './views/HomePage';
 function App() {
     return (
         <div className="App">
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Index</Link>
-                            </li>
-                            <li>
-                                <Link to="/login">Login</Link>
-                            </li>
-                            <li>
-                                <Link to="/signup">SignUp</Link>
-                            </li>
-                        </ul>
-                    </nav>
+            <Router>
+                <div>
                     <Switch>
                         <Route exact={true} path="/login" component={Login}/>
 
@@ -33,6 +22,8 @@ function App() {
 
                     </Switch>
                 </div>
+            </Router>
+        </div>
     );
 }
 

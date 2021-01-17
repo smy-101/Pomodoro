@@ -1,5 +1,5 @@
 import React from 'react';
-import {Menu, Dropdown, Button, message} from 'antd';
+import {Menu, Dropdown, message} from 'antd';
 import {DownOutlined, SettingOutlined, PoweroffOutlined} from '@ant-design/icons';
 
 function handleMenuClick(e: any) {
@@ -14,7 +14,7 @@ const logout = () => {
 const menu = (
     <Menu onClick={handleMenuClick}>
         <Menu.Item key="1" icon={<SettingOutlined/>}>
-            个人设置
+            设置
         </Menu.Item>
         <Menu.Item key="2" onClick={logout} icon={<PoweroffOutlined/>}>
             注销
@@ -34,10 +34,10 @@ class Drop extends React.Component<Props, any> {
         return (
             <div>
                 <Dropdown overlay={menu}>
-                    <Button>
+                    <span>
                         {name}
-                        <DownOutlined/>
-                    </Button>
+                        <DownOutlined style={{marginLeft: 8}}/>
+                    </span>
                 </Dropdown>
             </div>
         );
