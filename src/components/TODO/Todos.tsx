@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {addTodo} from '../../redux/actions';
 import TodoInput from './TodoInput';
 import axios from '../../config/axios';
 import styled from 'styled-components';
@@ -9,9 +11,10 @@ const Wrapper = styled.div`
   border: 1px solid #ddd;
   border-radius: 4px;
   width: calc(50% - 8px);
-  box-shadow: 0 2px 0 rgba(225,225,225,.2);
+  box-shadow: 0 2px 0 rgba(225, 225, 225, .2);
   background: #fff;
-  >main{
+
+  > main {
     margin-top: 16px;
   }
 `;
@@ -27,16 +30,17 @@ class Todos extends React.Component<any, ITodosState> {
             todos: []
         };
     }
-    get unDeletedTodos(){
-        return this.state.todos.filter(t=>!t.deleted)
+
+    get unDeletedTodos() {
+        return this.state.todos.filter(t => !t.deleted);
     }
 
-    get unCompletedTodos(){
-        return this.unDeletedTodos.filter(t=>!t.completed)
+    get unCompletedTodos() {
+        return this.unDeletedTodos.filter(t => !t.completed);
     }
 
-    get completedTodos(){
-        return this.unDeletedTodos.filter(t=>t.completed)
+    get completedTodos() {
+        return this.unDeletedTodos.filter(t => t.completed);
     }
 
 
@@ -95,18 +99,18 @@ class Todos extends React.Component<any, ITodosState> {
     public render() {
         return (
             <Wrapper className="Todos">
-                <TodoInput addTodo={(params: any) => this.addTodo(params)}/>
+                <TodoInput/>
                 <main>
                     {
                         this.unCompletedTodos.map(t => <TodoItem key={t.id} {...t}
-                                                            update={this.updateTodo}
-                                                            toEditing={this.toEditing}
+                                                                 update={this.updateTodo}
+                                                                 toEditing={this.toEditing}
                         />)
                     }
                     {
                         this.completedTodos.map(t => <TodoItem key={t.id} {...t}
-                                                                 update={this.updateTodo}
-                                                                 toEditing={this.toEditing}
+                                                               update={this.updateTodo}
+                                                               toEditing={this.toEditing}
                         />)
                     }
                 </main>
@@ -115,4 +119,15 @@ class Todos extends React.Component<any, ITodosState> {
     }
 }
 
-export default Todos;
+const mapStateToProps = (state: { todos: any; }, ownProps: any) => {
+    return {
+        todos: state.todos,
+        ...ownProps
+    };
+};
+
+
+const mapDispatchToProps = {addTodo};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);

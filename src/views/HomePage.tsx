@@ -7,6 +7,7 @@ import Todos from '../components/TODO/Todos';
 const Wrapper = styled.div`
   max-width: 1000px;
   margin: 0 auto;
+  padding: 0 16px;
   >header{
     display: flex;
     justify-content: space-between;
