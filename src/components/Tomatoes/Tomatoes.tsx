@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import TomatoAction from './TomatoAction';
 import {connect} from 'react-redux';
+import {addTomato, initTomatoes} from '../../redux/actions/tomatoes-actions';
+import axios from '../../config/axios';
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -11,27 +13,65 @@ const Wrapper = styled.div`
   box-shadow: 0 2px 0 rgba(225, 225, 225, .2);
   background: #fff;
 
-`
+`;
 
-class Tomatoes extends React.Component<any, any> {
+interface ITomatoesProps {
+    addTomato: (payload: any) => any;
+    tomatoes: any[];
+}
+
+
+class Tomatoes extends React.Component<ITomatoesProps, any> {
+    constructor(props: ITomatoesProps) {
+        super(props);
+    }
+
+    componentDidMount() {
+        this.getTomatoes();
+    }
+
+    get unfinishedTomato() {
+        return this.props.tomatoes.filter(t => !t.description && !t.ender_at)[0];
+    }
+
+    getTomatoes = async () => {
+        try {
+            const response = await axios.get('tomatoes');
+            console.log(response.data);
+        } catch (e) {
+            throw new Error(e);
+        }
+    };
+
+    startTomato = async () => {
+        try {
+            const response = await axios.post('tomatoes', {duration: 25 * 60 * 1000});
+            this.props.addTomato(response.data.resource);
+        } catch (e) {
+            throw new Error(e);
+        }
+    };
+
     public render() {
         return (
             <Wrapper>
-                <TomatoAction/>
+                <TomatoAction startTomato={this.startTomato}
+                              unfinishedTomato={this.unfinishedTomato}
+                />
             </Wrapper>
         );
     }
 }
 
 
-// const mapStateToProps = (state: { tomatoes: any; }, ownProps: any) => {
-//     return {
-//         tomatoes: state.tomatoes,
-//         ...ownProps
-//     };
-// };
-//
-//
-// const mapDispatchToProps = {};
+const mapStateToProps = (state: { tomatoes: any; }, ownProps: any) => {
+    return {
+        tomatoes: state.tomatoes,
+        ...ownProps
+    };
+};
 
-export default connect()(Tomatoes);
+
+const mapDispatchToProps = {addTomato, initTomatoes};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tomatoes);
