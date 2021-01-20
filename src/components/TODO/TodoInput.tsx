@@ -1,7 +1,7 @@
 import React from 'react';
 import {Input} from 'antd';
 import {EnterOutlined} from '@ant-design/icons';
-import {addTodo,initTodos} from '../../redux/actions';
+import {addTodo,initTodos} from '../../redux/actions/todos-actions';
 import {connect} from 'react-redux';
 import axios from '../../config/axios';
 

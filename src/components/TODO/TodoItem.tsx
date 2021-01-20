@@ -4,7 +4,7 @@ import {DeleteOutlined, EnterOutlined} from '@ant-design/icons';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import {connect} from 'react-redux';
-import {editTodo, updateTodo} from '../../redux/actions';
+import {editTodo, updateTodo} from '../../redux/actions/todos-actions';
 import axios from '../../config/axios';
 
 
@@ -107,7 +107,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
                 />
                 <div className="iconWrapper">
                     <EnterOutlined/>
-                    <DeleteOutlined onClick={e => this.updateTodo({deleted: true})}/>
+                    <DeleteOutlined onClick={() => this.updateTodo({deleted: true})}/>
                 </div>
             </div>
         );

@@ -3,6 +3,7 @@ import axios from '../config/axios';
 import styled from 'styled-components';
 import Drop from '../components/Drop';
 import Todos from '../components/TODO/Todos';
+import Tomatoes from '../components/Tomatoes/Tomatoes';
 
 const Wrapper = styled.div`
   max-width: 1000px;
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
     padding: 16px 0;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
   }
 `;
 
@@ -60,6 +62,7 @@ class HomePage extends React.Component<IRouter, IIndexState> {
                     <Drop name={this.state.user && this.state.user.account}/>
                 </header>
                 <main>
+                    <Tomatoes/>
                     <Todos/>
                 </main>
             </Wrapper>
