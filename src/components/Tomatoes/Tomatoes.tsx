@@ -17,27 +17,26 @@ const Wrapper = styled.div`
 
 interface ITomatoesProps {
     addTomato: (payload: any) => any;
+    initTomatoes: (payload: any[]) => any[];
     tomatoes: any[];
 }
 
 
 class Tomatoes extends React.Component<ITomatoesProps, any> {
-    constructor(props: ITomatoesProps) {
-        super(props);
-    }
+
 
     componentDidMount() {
         this.getTomatoes();
     }
 
     get unfinishedTomato() {
-        return this.props.tomatoes.filter(t => !t.description && !t.ender_at)[0];
+        return this.props.tomatoes.filter(t => !t.description && !t.ended_at)[0];
     }
 
     getTomatoes = async () => {
         try {
             const response = await axios.get('tomatoes');
-            console.log(response.data);
+            this.props.initTomatoes(response.data.resources)
         } catch (e) {
             throw new Error(e);
         }
