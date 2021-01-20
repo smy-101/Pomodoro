@@ -1,16 +1,16 @@
 import React from 'react';
 import {Input} from 'antd';
 import {EnterOutlined} from '@ant-design/icons';
-import {addTodo} from '../../redux/actions';
+import {addTodo,initTodos} from '../../redux/actions';
 import {connect} from 'react-redux';
 import axios from '../../config/axios';
 
 interface ITodoInputState {
-    description: any;
+    description: string;
 }
 
 interface ITodoInputProps {
-    addTodo: (payload: any) => any;
+    addTodo: (payload: any) => any[];
 }
 
 
@@ -27,15 +27,16 @@ class TodoInput extends React.Component<ITodoInputProps, ITodoInputState> {
             this.postTodo();
         }
     };
-    postTodo = async () => {
+    postTodo = async ()=>{
         try {
             const response = await axios.post('todos',{description: this.state.description})
             this.props.addTodo(response.data.resource)
-        }catch (e){
+        }catch (e) {
             throw new Error(e)
         }
-        this.setState({description: ''});
-    };
+        this.setState({description: ''})
+    }
+
 
 
     public render() {
@@ -63,7 +64,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
 };
 
 
-const mapDispatchToProps = {addTodo};
+const mapDispatchToProps = {addTodo,initTodos};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoInput);
