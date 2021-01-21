@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TomatoAction from './TomatoAction';
 import {connect} from 'react-redux';
-import {addTomato, initTomatoes} from '../../redux/actions/tomatoes-actions';
+import {addTomato, initTomatoes,updateTomato} from '../../redux/actions/tomatoes-actions';
 import axios from '../../config/axios';
 
 const Wrapper = styled.div`
@@ -17,6 +17,7 @@ const Wrapper = styled.div`
 
 interface ITomatoesProps {
     addTomato: (payload: any) => any;
+    updateTomato: (payload: any) => any;
     initTomatoes: (payload: any[]) => any[];
     tomatoes: any[];
 }
@@ -51,11 +52,13 @@ class Tomatoes extends React.Component<ITomatoesProps, any> {
         }
     };
 
+
     public render() {
         return (
             <Wrapper>
                 <TomatoAction startTomato={this.startTomato}
                               unfinishedTomato={this.unfinishedTomato}
+                              updateTomato={this.props.updateTomato}
                 />
             </Wrapper>
         );
@@ -71,6 +74,6 @@ const mapStateToProps = (state: { tomatoes: any; }, ownProps: any) => {
 };
 
 
-const mapDispatchToProps = {addTomato, initTomatoes};
+const mapDispatchToProps = {addTomato, initTomatoes,updateTomato};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tomatoes);
