@@ -55,9 +55,9 @@ class CountDown extends React.Component<ICountDownProps, ICountDownState> {
 
     componentDidMount() {
         timerId = setInterval(() => {
-            document.title = `${this.countDown} - 番茄时间`;
             const time = this.state.countDown;
             this.setState({countDown: time - 1000});
+            document.title = `${this.countDown} - 番茄时间`;
             if (time < 1000) {
                 document.title = '番茄时间';
                 this.props.onFinish();

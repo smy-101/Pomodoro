@@ -9,6 +9,9 @@ const Wrapper=styled.div`
   .countDownWrapper,.inputWrapper{
     position: relative;
   }
+  .start{
+    width: 100%;
+  }
   .abort{
     position: absolute;
     right: -6px;top: -6px;
@@ -83,7 +86,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     public render() {
         let html = <div/>;
         if (this.props.unfinishedTomato === undefined) {
-            html = <Button onClick={() => (this.props.startTomato())}>开始番茄</Button>;
+            html = <Button className="start" onClick={() => (this.props.startTomato())}>开始番茄</Button>;
         } else {
             const startedAt = Date.parse(this.props.unfinishedTomato.started_at);
             const duration = this.props.unfinishedTomato.duration;
