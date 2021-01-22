@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Input} from 'antd';
+import {Button, Input,Modal} from 'antd';
 import axios from '../../config/axios';
 import {CloseCircleOutlined} from '@ant-design/icons';
 import CountDown from './CountDown';
@@ -27,6 +27,8 @@ interface ITomatoActionState {
     description: string;
 }
 
+const { confirm } = Modal;
+
 class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionState> {
     constructor(props: ITomatoActionProps) {
         super(props);
@@ -37,22 +39,44 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
 
     onKeyUp = (e: { keyCode: number; }) => {
         if (e.keyCode === 13 && this.state.description !== '') {
-            this.updateTomato();
+            this.updateTomato({
+                description: this.state.description,
+                ended_at: new Date()
+            })
+            this.setState({description: ''})
         }
     };
 
-    updateTomato = async () => {
+    abortTomato = ()=>{
+        this.updateTomato({aborted: true})
+        document.title = '番茄APP';
+    }
+
+    updateTomato = async (params:any)=>{
         try {
-            const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`,
-                {description: this.state.description, ended_at: new Date()});
+            const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`,params)
             this.props.updateTomato(response.data.resource)
-            this.setState({description: ''});
-        } catch (e) {
-            throw new Error(e);
+        }catch (e) {
+            throw new Error(e)
         }
-    };
+    }
+
     onFinish = () => {
         this.forceUpdate()
+    }
+
+    showConfirm = () =>{
+        confirm({
+            title: '您目前正在一个番茄工作时间中，要放弃这个番茄吗？',
+            onOk: ()=>{
+                this.abortTomato()
+            },
+            onCancel() {
+                console.log('取消');
+            },
+            cancelText: '取消',
+            okText: '确定',
+        });
     }
 
 
@@ -71,7 +95,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
                            onChange={(e) => this.setState({description: e.target.value})}
                            onKeyUp={(e) => this.onKeyUp(e)}
                     />
-                    <CloseCircleOutlined className="abort"/>
+                    <CloseCircleOutlined className="abort" onClick={this.showConfirm}/>
                 </div>;
             } else if (timeNow - startedAt < duration) {
                 const timer = duration - timeNow + startedAt
@@ -81,7 +105,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
                                    onFinish={this.onFinish}
                                    duration={duration}
                         />
-                        <CloseCircleOutlined className="abort"/>
+                        <CloseCircleOutlined className="abort" onClick={this.showConfirm}/>
                     </div>
                 );
             }
