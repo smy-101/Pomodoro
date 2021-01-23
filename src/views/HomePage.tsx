@@ -4,19 +4,25 @@ import styled from 'styled-components';
 import Drop from '../components/Drop';
 import Todos from '../components/TODO/Todos';
 import Tomatoes from '../components/Tomatoes/Tomatoes';
+import Statistics from '../components/Statistics/Statistics';
+import {connect} from 'react-redux';
+import {initTodos} from '../redux/actions/todos-actions';
+import {initTomatoes} from '../redux/actions/tomatoes-actions';
 
 const Wrapper = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 16px;
-  >header{
+
+  > header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ddd;
     padding: 16px 0;
   }
-  >main{
+
+  > main {
     padding: 16px 0;
     display: flex;
     justify-content: space-between;
@@ -24,16 +30,13 @@ const Wrapper = styled.div`
   }
 `;
 
-interface IRouter {
-    history: any;
-}
 
 interface IIndexState {
     user: any
 }
 
-class HomePage extends React.Component<IRouter, IIndexState> {
-    constructor(props: IRouter) {
+class HomePage extends React.Component<any, IIndexState> {
+    constructor(props: any) {
         super(props);
         this.state = {
             user: {}
@@ -42,11 +45,32 @@ class HomePage extends React.Component<IRouter, IIndexState> {
 
     async componentDidMount() {
         await this.getMe();
+        await this.getTodos();
+        await this.getTomatoes();
     }
 
     getMe = async () => {
         const response = await axios.get('me');
         this.setState({user: response.data});
+    };
+
+    getTodos = async () => {
+        try {
+            const response = await axios.get('todos');
+            const todos = response.data.resources.map((t: any) => Object.assign({}, t, {editing: false}));
+            this.props.initTodos(todos);
+        } catch (e) {
+            throw new Error(e);
+        }
+    };
+
+    getTomatoes = async () => {
+        try {
+            const response = await axios.get('tomatoes');
+            this.props.initTomatoes(response.data.resources);
+        } catch (e) {
+            throw new Error(e);
+        }
     };
 
     // logout = () => {
@@ -65,9 +89,19 @@ class HomePage extends React.Component<IRouter, IIndexState> {
                     <Tomatoes/>
                     <Todos/>
                 </main>
+                <Statistics/>
             </Wrapper>
         );
     }
 }
 
-export {HomePage};
+const mapStateToProps = (state: any, ownProps: any) => ({
+    ...ownProps
+});
+
+const mapDispatchToProps = {
+    initTodos,
+    initTomatoes
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

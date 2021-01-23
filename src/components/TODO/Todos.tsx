@@ -1,8 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {initTodos} from '../../redux/actions/todos-actions';
 import TodoInput from './TodoInput';
-import axios from '../../config/axios';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
 
@@ -35,20 +33,6 @@ class Todos extends React.Component<any, any> {
         return this.unDeletedTodos.filter((t: { completed: any; }) => t.completed);
     }
 
-    componentDidMount() {
-        this.getTodos();
-    }
-
-    getTodos = async () => {
-        try {
-            const response = await axios.get('todos');
-            const todos = response.data.resources.map((t: any) => Object.assign({}, t, {editing: false}));
-            this.props.initTodos(todos);
-        } catch (e) {
-            throw new Error(e);
-        }
-    };
-
 
     public render() {
         return (
@@ -77,7 +61,6 @@ const mapStateToProps = (state: { todos: any; }, ownProps: any) => {
 };
 
 
-const mapDispatchToProps = {initTodos};
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+export default connect(mapStateToProps)(Todos);

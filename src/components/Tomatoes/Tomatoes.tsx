@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TomatoAction from './TomatoAction';
 import {connect} from 'react-redux';
-import {addTomato, initTomatoes, updateTomato} from '../../redux/actions/tomatoes-actions';
+import {addTomato, updateTomato} from '../../redux/actions/tomatoes-actions';
 import axios from '../../config/axios';
 import TomatoList from './TomatoList';
 import _ from 'lodash';
@@ -21,17 +21,11 @@ const Wrapper = styled.div`
 interface ITomatoesProps {
     addTomato: (payload: any) => any;
     updateTomato: (payload: any) => any;
-    initTomatoes: (payload: any[]) => any[];
     tomatoes: any[];
 }
 
 
 class Tomatoes extends React.Component<ITomatoesProps, any> {
-
-
-    componentDidMount() {
-        this.getTomatoes();
-    }
 
     get unfinishedTomato() {
         return this.props.tomatoes.filter(t => !t.description && !t.ended_at && !t.aborted)[0];
@@ -44,15 +38,6 @@ class Tomatoes extends React.Component<ITomatoesProps, any> {
         });
     }
 
-    getTomatoes = async () => {
-        try {
-            const response = await axios.get('tomatoes');
-            this.props.initTomatoes(response.data.resources);
-        } catch (e) {
-            throw new Error(e);
-        }
-    };
-
     startTomato = async () => {
         try {
             const response = await axios.post('tomatoes', {duration: 25 * 60 * 1000});
@@ -61,7 +46,6 @@ class Tomatoes extends React.Component<ITomatoesProps, any> {
             throw new Error(e);
         }
     };
-
 
     public render() {
         return (
@@ -85,6 +69,6 @@ const mapStateToProps = (state: { tomatoes: any; }, ownProps: any) => {
 };
 
 
-const mapDispatchToProps = {addTomato, initTomatoes, updateTomato};
+const mapDispatchToProps = {addTomato, updateTomato};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tomatoes);

@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {Login} from './views/Login';
 import {SignUp} from './views/SignUp';
-import {HomePage} from './views/HomePage';
+import HomePage from './views/HomePage';
 
 function App() {
     return (
