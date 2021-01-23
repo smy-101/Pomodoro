@@ -1,23 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
+import Polygon from './Polygon';
+import dayjs from 'dayjs';
+import _ from 'lodash';
 
 const Wrapper = styled.div`
-  ul{
+  ul {
     display: flex;
-    li{
+
+    li {
       flex: 1;
     }
   }
 `;
 
-interface IStatisticsProps{
-    todos:any[];
+interface IStatisticsProps {
+    todos: any[];
 }
 
 class Statistics extends React.Component<IStatisticsProps, any> {
-    get finishedTodos(){
-        return this.props.todos.filter(t=>t.completed && !t.deleted)
+    get finishedTodos() {
+        return this.props.todos.filter(t => t.completed && !t.deleted);
+    }
+
+    get dailyTodos() {
+        return _.groupBy(this.finishedTodos, (todo) => {
+            return dayjs(todo.updated_at).format('YYYY-MM-DD');
+        });
     }
 
     public render() {
@@ -30,6 +40,7 @@ class Statistics extends React.Component<IStatisticsProps, any> {
                     <li>
                         任务历史
                         累计完成{this.finishedTodos.length}个任务
+                        <Polygon data={this.dailyTodos} totalFinishedCount={this.finishedTodos.length}/>
                     </li>
                 </ul>
             </Wrapper>
