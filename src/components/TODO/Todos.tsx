@@ -29,9 +29,9 @@ class Todos extends React.Component<any, any> {
         return this.unDeletedTodos.filter((t: { completed: any; }) => !t.completed);
     }
 
-    get completedTodos() {
-        return this.unDeletedTodos.filter((t: { completed: any; }) => t.completed);
-    }
+    // get completedTodos() {
+    //     return this.unDeletedTodos.filter((t: { completed: any; }) => t.completed);
+    // }
 
 
     public render() {
@@ -43,10 +43,7 @@ class Todos extends React.Component<any, any> {
                         this.unCompletedTodos.map((t: { id: any; }) => <TodoItem key={t.id} {...t}
                         />)
                     }
-                    {
-                        this.completedTodos.map((t: { id: any; }) => <TodoItem key={t.id} {...t}
-                        />)
-                    }
+
                 </main>
             </Wrapper>
         );
