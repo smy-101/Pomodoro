@@ -1,6 +1,6 @@
 import React from 'react';
 import {Menu, Dropdown, message} from 'antd';
-import {DownOutlined, SettingOutlined, PoweroffOutlined} from '@ant-design/icons';
+import {DownOutlined, PoweroffOutlined} from '@ant-design/icons';
 
 function handleMenuClick(e: any) {
     message.info('Click on menu item.');
@@ -13,9 +13,7 @@ const logout = () => {
 };
 const menu = (
     <Menu onClick={handleMenuClick}>
-        <Menu.Item key="1" icon={<SettingOutlined/>}>
-            设置
-        </Menu.Item>
+
         <Menu.Item key="2" onClick={logout} icon={<PoweroffOutlined/>}>
             注销
         </Menu.Item>

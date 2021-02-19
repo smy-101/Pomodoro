@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import TodoInput from './TodoInput';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
+import {Empty} from 'antd';
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -14,6 +15,7 @@ const Wrapper = styled.div`
 
   > main {
     margin-top: 16px;
+    min-height: 130px;
   }
 `;
 
@@ -35,15 +37,20 @@ class Todos extends React.Component<any, any> {
 
 
     public render() {
+        const UncompleteList = () => {
+            if (this.unCompletedTodos.length === 0) {
+                return (<Empty/>);
+            } else {
+                return (this.unCompletedTodos.map((t: { id: any; }) => <TodoItem key={t.id} {...t}/>));
+            }
+        };
+
         return (
             <Wrapper className="Todos">
                 <TodoInput/>
                 <main>
-                    {
-                        this.unCompletedTodos.map((t: { id: any; }) => <TodoItem key={t.id} {...t}
-                        />)
-                    }
-
+                    <UncompleteList/>
+                    {/*{this.unCompletedTodos.map((t: { id: any; }) => <TodoItem key={t.id} {...t}/>)}*/}
                 </main>
             </Wrapper>
         );
@@ -56,8 +63,6 @@ const mapStateToProps = (state: { todos: any; }, ownProps: any) => {
         ...ownProps
     };
 };
-
-
 
 
 export default connect(mapStateToProps)(Todos);
