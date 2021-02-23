@@ -5,6 +5,7 @@ import Polygon from './Polygon';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import TodoHistory from './TodoHistory/TodoHistory';
+import TomatoHistory from './TomatoHistory/TomatoHistory';
 
 const Wrapper = styled.div`
   ul {
@@ -18,6 +19,7 @@ const Wrapper = styled.div`
 
 interface IStatisticsProps {
     todos: any[];
+    tomatoes:any[];
 }
 
 class Statistics extends React.Component<IStatisticsProps, any> {
@@ -30,13 +32,20 @@ class Statistics extends React.Component<IStatisticsProps, any> {
             return dayjs(todo.updated_at).format('YYYY-MM-DD');
         });
     }
+    get finishedTomatoes(){
+        return this.props.tomatoes.filter(t=>!t.aborted)
+    }
 
     public render() {
+        console.log(this.props.tomatoes.filter(t=>!t.aborted));
         return (
             <Wrapper>
                 <ul>
                     <li>统计</li>
-                    <li>番茄历史</li>
+                    <li>
+                        番茄历史
+                        累计完成{this.finishedTomatoes.length}个任务
+                    </li>
                     <li>
                         任务历史
                         累计完成{this.finishedTodos.length}个任务
@@ -44,15 +53,17 @@ class Statistics extends React.Component<IStatisticsProps, any> {
                     </li>
                 </ul>
                 <TodoHistory/>
+                <TomatoHistory/>
             </Wrapper>
         );
     }
 }
 
 
-const mapStateToProps = (state: { todos: any; }, ownProps: any) => {
+const mapStateToProps = (state: { todos: any; tomatoes:any }, ownProps: any) => {
     return {
         todos: state.todos,
+        tomatoes: state.tomatoes,
         ...ownProps
     };
 };

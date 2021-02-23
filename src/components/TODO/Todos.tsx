@@ -35,7 +35,6 @@ class Todos extends React.Component<any, any> {
     //     return this.unDeletedTodos.filter((t: { completed: any; }) => t.completed);
     // }
 
-
     public render() {
         const UncompleteList = () => {
             if (this.unCompletedTodos.length === 0) {
@@ -50,7 +49,6 @@ class Todos extends React.Component<any, any> {
                 <TodoInput/>
                 <main>
                     <UncompleteList/>
-                    {/*{this.unCompletedTodos.map((t: { id: any; }) => <TodoItem key={t.id} {...t}/>)}*/}
                 </main>
             </Wrapper>
         );
