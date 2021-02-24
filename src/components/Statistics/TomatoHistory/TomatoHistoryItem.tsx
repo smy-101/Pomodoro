@@ -39,9 +39,9 @@ const Wrapper = styled.div`
     }
   }
 
-  &:first-child {
-    border-top: 1px solid #ddd;
-  }
+  //&:first-child {
+  //  border-top: 1px solid #ddd;
+  //}
 
   &.editing {
     background: #fff3d2
