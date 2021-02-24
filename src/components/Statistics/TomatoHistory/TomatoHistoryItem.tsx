@@ -4,18 +4,39 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import {updateTomato,editTomato} from '../../../redux/actions/tomatoes-actions';
 import axios from '../../../config/axios';
-import {DeleteOutlined, EnterOutlined} from '@ant-design/icons';
 import classNames from 'classnames';
 
 
 const Wrapper = styled.div`
+  padding: 8px;
+  font-size: 14px;
   display: flex;
-  padding: 8px 0 8px 8px;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+  
+  >div>.time{
+    color: #999;
+    margin-right: 8px;
+  }
+
+  .action {
+    display: none;
+
+    span {
+      color: deepskyblue;
+      cursor: pointer;
+
+      &:first-child {
+        margin-right: 4px;
+      }
+    }
+  }
 
   &:hover {
-    background: #f9f9f9
+    background: #f4f4f4;
+
+    > .action {
+      display: block;
+    }
   }
 
   &:first-child {
@@ -24,13 +45,6 @@ const Wrapper = styled.div`
 
   &.editing {
     background: #fff3d2
-  }
-
-  &.completed {
-    > .text {
-      text-decoration: line-through;
-      color: #a9a9a9;
-    }
   }
 
   > .editing, > .text {
@@ -42,19 +56,13 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    > input {
-      border: 0;
-      outline: none;
-      background: transparent;
-    }
-
-    > .iconWrapper > .anticon {
-      margin-left: 4px;
-      color: #a9a9a9;
-      cursor: pointer;
-    }
   }
+`
+
+const InputWrapper= styled.input`
+  border: 1px black solid;
+  outline: none;
+  background: white;
 `
 
 interface ITomatoListProps {
@@ -100,8 +108,8 @@ class TomatoHistoryItem extends React.Component<ITomatoListProps, ITomatoListSta
     };
 
     onTomato=()=>{
-        this.updateTomato({description: this.state.editText});
-        this.setState({editing:false})
+            this.updateTomato({description: this.state.editText});
+            this.setState({editing:false})
     }
 
 
@@ -130,16 +138,10 @@ class TomatoHistoryItem extends React.Component<ITomatoListProps, ITomatoListSta
 
 
         const Editing = (
-            <div className="editing">
-                <input type="text" value={this.state.editText}
+                <InputWrapper type="text" value={this.state.editText}
                        onChange={e => this.setState({editText: e.target.value})}
                        onKeyUp={this.onKeyUp}
                 />
-                <div className="iconWrapper">
-                    <EnterOutlined/>
-                    <DeleteOutlined onClick={() => this.updateTomato({aborted: true})}/>
-                </div>
-            </div>
         );
         const Text = <span className="text" onDoubleClick={this.editTomato}>{this.props.tomato.description}</span>;
         const tomatoItemClass = classNames({
@@ -147,19 +149,13 @@ class TomatoHistoryItem extends React.Component<ITomatoListProps, ITomatoListSta
             editing: this.state.editing,
         });
 
-        console.log(this.props.tomato)
-
         return (
             <Wrapper className={tomatoItemClass}>
                 <div>
-                    <span>{dayjs(time1).format('HH:mm')}-{dayjs(time2).format('HH:mm')}</span>
+                    <span className="time">{dayjs(time1).format('HH:mm')}-{dayjs(time2).format('HH:mm')}</span>
                     <span>{this.state.editing ? Editing : Text}</span>
                 </div>
                 {action}
-                {/*<div className="action">*/}
-                {/*    <span onClick={this.editTomato}>编辑</span>*/}
-                {/*    <span onClick={() => this.updateTomato({aborted: true})}>删除</span>*/}
-                {/*</div>*/}
             </Wrapper>
         );
     }
