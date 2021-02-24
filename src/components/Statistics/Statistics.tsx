@@ -33,11 +33,10 @@ class Statistics extends React.Component<IStatisticsProps, any> {
         });
     }
     get finishedTomatoes(){
-        return this.props.tomatoes.filter(t=>!t.aborted)
+        return this.props.tomatoes.filter(t => t.description && t.ended_at && !t.aborted)
     }
 
     public render() {
-        console.log(this.props.tomatoes.filter(t=>!t.aborted));
         return (
             <Wrapper>
                 <ul>
