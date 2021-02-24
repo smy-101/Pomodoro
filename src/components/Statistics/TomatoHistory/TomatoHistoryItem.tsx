@@ -99,8 +99,36 @@ class TomatoHistoryItem extends React.Component<ITomatoListProps, ITomatoListSta
         }
     };
 
+    onTomato=()=>{
+        this.updateTomato({description: this.state.editText});
+        this.setState({editing:false})
+    }
+
 
     public render() {
+        let time1;
+        let time2;
+        time1 = this.props.tomato.created_at;
+        time2= this.props.tomato.ended_at;
+        let action;
+        if(this.state.editing){
+            action=(
+                <div className="action">
+                    <span onClick={this.onTomato}>提交</span>
+                    <span onClick={() => this.setState({editing:false})}>取消</span>
+                </div>
+            )
+        }else {
+            action=(
+                <div className="action">
+                    <span onClick={()=>this.setState({editing:true})}>编辑</span>
+                    <span onClick={() => this.updateTomato({aborted: true})}>删除</span>
+                </div>
+
+            )
+        }
+
+
         const Editing = (
             <div className="editing">
                 <input type="text" value={this.state.editText}
@@ -123,7 +151,15 @@ class TomatoHistoryItem extends React.Component<ITomatoListProps, ITomatoListSta
 
         return (
             <Wrapper className={tomatoItemClass}>
-                {this.state.editing ? Editing : Text}
+                <div>
+                    <span>{dayjs(time1).format('HH:mm')}-{dayjs(time2).format('HH:mm')}</span>
+                    <span>{this.state.editing ? Editing : Text}</span>
+                </div>
+                {action}
+                {/*<div className="action">*/}
+                {/*    <span onClick={this.editTomato}>编辑</span>*/}
+                {/*    <span onClick={() => this.updateTomato({aborted: true})}>删除</span>*/}
+                {/*</div>*/}
             </Wrapper>
         );
     }
