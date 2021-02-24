@@ -43,7 +43,6 @@ class Todos extends React.Component<any, any> {
                 return (this.unCompletedTodos.map((t: { id: any; }) => <TodoItem key={t.id} {...t}/>));
             }
         };
-
         return (
             <Wrapper className="Todos">
                 <TodoInput/>

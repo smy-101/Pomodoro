@@ -36,6 +36,8 @@ class Statistics extends React.Component<IStatisticsProps, any> {
         return this.props.tomatoes.filter(t => t.description && t.ended_at && !t.aborted)
     }
 
+
+
     public render() {
         return (
             <Wrapper>

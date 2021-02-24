@@ -1,91 +1,141 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
+import {updateTomato,editTomato} from '../../../redux/actions/tomatoes-actions';
+import axios from '../../../config/axios';
+import {DeleteOutlined, EnterOutlined} from '@ant-design/icons';
+import classNames from 'classnames';
 
 
-const Wrapper= styled.div`
-  .dailyTodos {
-    padding: 16px;
-    border: 1px solid #DDD;
-    border-radius: 4px;
-    margin-bottom: 8px;
+const Wrapper = styled.div`
+  display: flex;
+  padding: 8px 0 8px 8px;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+
+  &:hover {
+    background: #f9f9f9
+  }
+
+  &:first-child {
+    border-top: 1px solid #ddd;
+  }
+
+  &.editing {
+    background: #fff3d2
+  }
+
+  &.completed {
+    > .text {
+      text-decoration: line-through;
+      color: #a9a9a9;
+    }
+  }
+
+  > .editing, > .text {
+    padding: 0 8px;
+    flex: 1;
+  }
+
+  > .editing {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    .summary {
-      width: 100px;
-      margin-right: 8px;
-
-      .date {
-        span:first-child {
-          margin-right: 4px;
-          color: #222222;
-        }
-
-        span:last-child {
-          color: #888;
-          font-size: 12px;
-        }
-      }
-
-      .finishedCount {
-        font-size: 14px;
-        color: #888;
-      }
+    > input {
+      border: 0;
+      outline: none;
+      background: transparent;
     }
 
-    .todoList {
-      flex: 1;
+    > .iconWrapper > .anticon {
+      margin-left: 4px;
+      color: #a9a9a9;
+      cursor: pointer;
     }
   }
 `
 
 interface ITomatoListProps {
-    finishedTomato: any;
+    tomato: any;
+    updateTomato: (payload: any) => void;
+    editTomato: (id: number) => any;
 }
 
-const TomatoItem = function (props: any) {
-    return (
-        <div className="TomatoItem">
-            <span
-                className="timeRange">{dayjs(props.started_at).format('HH:mm')} - {dayjs(props.ended_at).format('HH:mm')}</span>
-            <span className="description">{props.description}</span>
-        </div>
-    );
-};
+interface ITomatoListState {
+    editText: string;
+    editing: boolean;
+}
 
-class TomatoHistoryItem extends React.Component<ITomatoListProps, any>{
-    get dates() {
-        const dates = Object.keys(this.props.finishedTomato);
-        return dates.sort((a, b) => Date.parse(b) - Date.parse(a)).splice(0, 3);
+
+
+class TomatoHistoryItem extends React.Component<ITomatoListProps, ITomatoListState> {
+    constructor(props: ITomatoListProps) {
+        super(props);
+        this.state = {
+            editText: this.props.tomato.description,
+            editing:false
+        };
     }
+    updateTomato = async (params: any) => {
+        try {
+            const response = await axios.put(`tomatoes/${this.props.tomato.id}`, params);
+            this.props.updateTomato(response.data.resource);
+        } catch (e) {
+            throw new Error(e);
+        }
+    };
 
+    editTomato = () => {
+        // this.props.editTomato(this.props.tomato.id);
+        this.setState({editing:true})
+    };
 
+    onKeyUp = (e: { keyCode: number; }) => {
+        if (e.keyCode === 13 && this.state.editText !== '') {
+            this.updateTomato({description: this.state.editText});
+            this.setState({editing:false})
+        }
+    };
 
 
     public render() {
-        const list = this.dates.map(d => {
-            const tomatoes = this.props.finishedTomato[d];
-            return (
-                <div key={d} className="dailyTodos">
-                    <div className="summary">
-                        <p className="date">
-                            <span>{d}</span>
-                        </p>
-                        <p className="finishedCount">完成了{tomatoes.length}个番茄</p>
-                    </div>
-                    <div className="todoList">
-                        {tomatoes.map((t: { id: any; }) => <TomatoItem key={t.id} {...t}/>)}
-                    </div>
+        const Editing = (
+            <div className="editing">
+                <input type="text" value={this.state.editText}
+                       onChange={e => this.setState({editText: e.target.value})}
+                       onKeyUp={this.onKeyUp}
+                />
+                <div className="iconWrapper">
+                    <EnterOutlined/>
+                    <DeleteOutlined onClick={() => this.updateTomato({aborted: true})}/>
                 </div>
-            );
+            </div>
+        );
+        const Text = <span className="text" onDoubleClick={this.editTomato}>{this.props.tomato.description}</span>;
+        const tomatoItemClass = classNames({
+            TomatoItem: true,
+            editing: this.state.editing,
         });
+
+        console.log(this.props.tomato)
+
         return (
-            <Wrapper>{list}</Wrapper>
-        )
+            <Wrapper className={tomatoItemClass}>
+                {this.state.editing ? Editing : Text}
+            </Wrapper>
+        );
     }
 }
 
 
+const mapStateToProps = (state: { tomatoes: any; }, ownProps: any) => ({
+    tomatoes: state.tomatoes,
+    ...ownProps
+});
+const mapDispatchToProps = {
+    updateTomato,editTomato
+};
 
-
-export default TomatoHistoryItem
+export default connect(mapStateToProps, mapDispatchToProps)(TomatoHistoryItem);

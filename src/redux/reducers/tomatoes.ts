@@ -1,4 +1,4 @@
-import {ADD_TOMATO, INIT_TOMATOES, UPDATE_TOMATO} from '../actionTypes';
+import {ADD_TOMATO, INIT_TOMATOES, UPDATE_TOMATO,EDIT_TOMATO} from '../actionTypes';
 // eslint-disable-next-line
 export default (state: any[] = [], action: any) => {
     switch (action.type) {
@@ -14,6 +14,14 @@ export default (state: any[] = [], action: any) => {
                     return t;
                 }
             });
+        case EDIT_TOMATO:
+            return state.map(t=>{
+                if(t.id === action.payload){
+                    return Object.assign({},t,{editing: true})
+                }else{
+                    return Object.assign({},t,{editing: false})
+                }
+            })
         default:
             return state;
     }
