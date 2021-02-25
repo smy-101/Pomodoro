@@ -8,6 +8,7 @@ import Statistics from '../components/Statistics/Statistics';
 import {connect} from 'react-redux';
 import {initTodos} from '../redux/actions/todos-actions';
 import {initTomatoes} from '../redux/actions/tomatoes-actions';
+import logo from '../icons/tomatoes.svg'
 
 const Wrapper = styled.div`
   max-width: 1000px;
@@ -30,6 +31,9 @@ const Wrapper = styled.div`
   }
 `;
 
+const Img = styled.img`
+  height: 35px;
+`
 
 interface IIndexState {
     user: any
@@ -82,7 +86,7 @@ class HomePage extends React.Component<any, IIndexState> {
         return (
             <Wrapper className="HomePage">
                 <header>
-                    <span>LOGO</span>
+                    <Img src={logo} alt=""/>
                     <Drop name={this.state.user && this.state.user.account}/>
                 </header>
                 <main>

@@ -47,7 +47,6 @@ const Charts:React.FC<Props> = (props) => {
     const [date, setDate] = useState(today);
     const onDateChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setDate(e.target.value);
-        console.log(e.target.value);
     };
     const day = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28'];
     let days;

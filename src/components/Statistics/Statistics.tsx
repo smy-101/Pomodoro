@@ -7,6 +7,8 @@ import TodoHistory from './TodoHistory/TodoHistory';
 import TomatoHistory from './TomatoHistory/TomatoHistory';
 import Charts from './Charts/Charts';
 import statisticssvg from '../../icons/statistics.svg';
+import todosvg from '../../icons/todo.svg'
+import tomatosvg from '../../icons/Tomato.svg'
 
 
 const Wrapper = styled.div`
@@ -31,9 +33,20 @@ const LiWrapper = styled.li`
   > img {
     width: 60px;
     height: 60px;
+    margin-right: 10px;
   }
 `;
 
+const DivWrapper=styled.div`
+  >p{
+    margin: 0;
+  }
+  .res{
+    font-size: 12px;
+    line-height: 12px;
+    color: #999;
+  }
+`
 interface IStatisticsProps {
     todos: any[];
     tomatoes: any[];
@@ -85,13 +98,20 @@ class Statistics extends React.Component<IStatisticsProps, IState> {
                     </LiWrapper>
                     <LiWrapper className={this.state.activeId === 1 ? 'active' : ''}
                                onClick={this.toggleActivePane.bind(this, 1)}>
-                        番茄历史
-                        累计完成{this.finishedTomatoes.length}个任务
+                        <img src={tomatosvg} alt=""/>
+                        <DivWrapper>
+                            <p>番茄历史</p>
+                            <p className="res">累计完成{this.finishedTomatoes.length}个番茄</p>
+                        </DivWrapper>
                     </LiWrapper>
                     <LiWrapper className={this.state.activeId === 2 ? 'active' : ''}
                                onClick={this.toggleActivePane.bind(this, 2)}>
-                        Todo历史
-                        累计完成{this.finishedTodos.length}个Todo
+                        <img src={todosvg} alt=""/>
+                        <DivWrapper>
+                            <p>Todo历史</p>
+                            <p className="res">累计完成{this.finishedTodos.length}个Todo</p>
+                        </DivWrapper>
+
                     </LiWrapper>
                 </ul>
                 {this.state.activeId === 0 ? <Charts/> : null}
