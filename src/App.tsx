@@ -7,6 +7,9 @@ import {
 import {Login} from './views/Login';
 import {SignUp} from './views/SignUp';
 import HomePage from './views/HomePage';
+import TodoHistory from './components/Statistics/TodoHistory/TodoHistory';
+import TomatoHistory from './components/Statistics/TomatoHistory/TomatoHistory';
+import Charts from './components/Statistics/Charts/Charts';
 
 function App() {
     return (
@@ -20,6 +23,11 @@ function App() {
 
                         <Route exact={true} path="/" component={HomePage}/>
 
+                        <Route exact={true} path="/todoHistory" component={TodoHistory}/>
+
+                        <Route exact={true} path="/tomatoHistory" component={TomatoHistory}/>
+
+                        <Route exact={true} path="/charts" component={Charts}/>
                     </Switch>
                 </div>
             </Router>
