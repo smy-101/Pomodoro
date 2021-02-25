@@ -20,12 +20,18 @@ const Charts:React.FC<Props> = (props) => {
     }
     const dailyTodos = ()=>{
         return _.groupBy(finishedTodos(), (todo) => {
-            return dayjs(todo.updated_at).format('YYYY-MM');
+            return dayjs(todo.updated_at).format('YYYY-MM-DD');
         });
     }
 
 
-    console.log(Object.keys(dailyTodos())[0]);
+    let i = 28;
+    if (dailyTodos()[`2021-02-${i}`]===undefined){
+        console.log('没有该数据')
+    }else {
+        console.log(dailyTodos()[`2021-02-${i}`]);
+    }
+
 
 
 
