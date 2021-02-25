@@ -2,11 +2,20 @@ import React from 'react';
 import {connect} from 'react-redux';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import {Tabs} from 'antd';
+import {Empty, Tabs} from 'antd';
 import TodoHistoryTodoItem from './TodoHistoryTodoItem';
 import styled from 'styled-components';
 
+
 const Wrapper = styled.div`
+  margin-bottom: 100px;
+  max-height: 500px;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   .dailyTodos {
     padding: 16px;
     border: 1px solid #DDD;
@@ -81,8 +90,9 @@ class TodoHistory extends React.Component<ITodoHistoryProps, any> {
                     </div>
                     <div className="todoList">
                         {
-                            this.dailyFinishedTodos[date].map(todo =>
-                                <TodoHistoryTodoItem key={todo.id} todo={todo} itemType="finished"/>)
+                            this.finishedTodos.length !== 0 ?
+                                this.dailyFinishedTodos[date].map(todo =>
+                                    <TodoHistoryTodoItem key={todo.id} todo={todo} itemType="finished"/>) : <Empty/>
                         }
                     </div>
                 </div>
@@ -90,7 +100,8 @@ class TodoHistory extends React.Component<ITodoHistoryProps, any> {
         });
         const deletedTodoList = this.deletedTodos.map(todo => {
             return (
-                <TodoHistoryTodoItem key={todo.id} todo={todo} itemType="deleted"/>
+                this.deletedTodos.length !== 0 ?
+                    <TodoHistoryTodoItem key={todo.id} todo={todo} itemType="deleted"/> : <Empty/>
             );
         });
 

@@ -4,8 +4,15 @@ import _ from 'lodash';
 import dayjs from 'dayjs';
 import TomatoHistoryItem from './TomatoHistoryItem';
 import styled from 'styled-components';
+import {Empty} from 'antd';
 
 const Wrapper = styled.div`
+  margin-bottom: 100px;
+  max-height: 500px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   .dailyTodos {
     padding: 16px;
     border: 1px solid #DDD;
@@ -92,7 +99,9 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
         });
         return (
             <Wrapper>
-                {finishedTomatoList}
+                {
+                    this.finishedTomato.length!==0 ? finishedTomatoList : <Empty/>
+                }
             </Wrapper>
             // <>
             //     {finishedTomatoList}

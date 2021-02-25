@@ -72,9 +72,9 @@ class Statistics extends React.Component<IStatisticsProps, any> {
                         累计完成{this.finishedTodos.length}个Todo
                     </LiWrapper>
                 </ul>
-                <Charts/>
                 <TodoHistory/>
                 <TomatoHistory/>
+                <Charts/>
             </Wrapper>
         );
     }
