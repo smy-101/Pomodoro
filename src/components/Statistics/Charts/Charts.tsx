@@ -3,18 +3,37 @@ import dayjs from 'dayjs';
 import TodoCharts from './TodoCharts';
 import {connect} from 'react-redux';
 import _ from 'lodash';
+import { Tabs } from 'antd';
+import styled from 'styled-components';
 
 
+const Wrapper=styled.div`
+  margin-bottom: 20px;
+ >span{
+   margin-left: 20px;
+   margin-right: 5px;
+ }
+`
 
+
+const { TabPane } = Tabs;
 type Props={
     todos: any[];
     tomatoes:any[];
 }
 
-
-
 const Charts:React.FC<Props> = (props) => {
     const todos = props.todos;
+    const tomatoes = props.tomatoes;
+    const finishedTomato =()=>{
+        return tomatoes.filter(t => t.description && t.ended_at && !t.aborted);
+    }
+    const dailyFinishedTomato=()=>{
+        return _.groupBy(finishedTomato(), (tomatoes) => {
+            return dayjs(tomatoes.ended_at).format('YYYY-MM-DD');
+        });
+    }
+
     const finishedTodos=()=>{
         return todos.filter(t => t.completed && !t.deleted);
     }
@@ -51,13 +70,25 @@ const Charts:React.FC<Props> = (props) => {
         }
     }
 
-    let option = {
+    let ydata1=[];
+    for (let i = 1; i <= dayjs(date).daysInMonth(); i++) {
+        if (dailyFinishedTomato()[`${date}-${i}`]===undefined){
+            ydata1.push(0);
+        }else {
+            ydata1.push(dailyFinishedTomato()[`${date}-${i}`].length)
+        }
+    }
+
+
+
+    let option1 = {
         title:{
             show:true,
             text:'本月Todo表',
             left:375
         },
         xAxis: {
+            name:'天数',
             type: 'category',
             data: days
         },
@@ -65,6 +96,7 @@ const Charts:React.FC<Props> = (props) => {
           show:true
         },
         yAxis: {
+            name:'Todo完成数',
             type: 'value'
         },
         series: [{
@@ -73,12 +105,49 @@ const Charts:React.FC<Props> = (props) => {
         }]
     }
 
+    let option2 = {
+        title:{
+            show:true,
+            text:'本月番茄表',
+            left:375
+        },
+        xAxis: {
+            name:'天数',
+            type: 'category',
+            data: days
+        },
+        tooltip:{
+            show:true
+        },
+        yAxis: {
+            name:'番茄完成数',
+            type: 'value'
+        },
+        series: [{
+            data:  ydata1,
+            type: 'line'
+        }]
+    }
 
-    console.log(option);
+
     return (
         <div>
-            <input type="month" value={date} onChange={onDateChange}/>
-            <TodoCharts option={option}/>
+            <Tabs defaultActiveKey="1">
+                <TabPane tab="Todo统计" key="1">
+                    <Wrapper>
+                        <span>当前月份</span>
+                        <input type="month" value={date} onChange={onDateChange}/>
+                    </Wrapper>
+                    <TodoCharts option={option1}/>
+                </TabPane>
+                <TabPane tab="番茄统计" key="2">
+                    <Wrapper>
+                        <span>当前月份</span>
+                        <input type="month" value={date} onChange={onDateChange}/>
+                    </Wrapper>
+                    <TodoCharts option={option2}/>
+                </TabPane>
+            </Tabs>
         </div>
     );
 };
