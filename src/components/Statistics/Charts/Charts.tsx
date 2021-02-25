@@ -24,17 +24,6 @@ const Charts:React.FC<Props> = (props) => {
         });
     }
 
-
-    let i = 28;
-    if (dailyTodos()[`2021-02-${i}`]===undefined){
-        console.log('没有该数据')
-    }else {
-        console.log(dailyTodos()[`2021-02-${i}`]);
-    }
-
-
-
-
     const today = dayjs().format('YYYY-MM');
     const [date, setDate] = useState(today);
     const onDateChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
@@ -53,28 +42,39 @@ const Charts:React.FC<Props> = (props) => {
         days=[...day,'29','30','31']
     }
 
-    console.log(days);
-    // for (let i = 0; i < dayjs(date).daysInMonth(); i++) {
-    //
-    // }
+    let ydata=[];
+    for (let i = 1; i <= dayjs(date).daysInMonth(); i++) {
+        if (dailyTodos()[`${date}-${i}`]===undefined){
+            ydata.push(0);
+        }else {
+            ydata.push(dailyTodos()[`${date}-${i}`].length)
+        }
+    }
 
-    const [option]= useState({
+    let option = {
+        title:{
+            show:true,
+            text:'本月Todo表',
+            left:375
+        },
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: days
+        },
+        tooltip:{
+          show:true
         },
         yAxis: {
             type: 'value'
         },
         series: [{
-            data: [150, 230, 224, 218, 135, 147, 260],
+            data:  ydata,
             type: 'line'
         }]
-    })
+    }
 
 
-
-
+    console.log(option);
     return (
         <div>
             <input type="month" value={date} onChange={onDateChange}/>
