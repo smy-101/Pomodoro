@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import Polygon from './Polygon';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import TodoHistory from './TodoHistory/TodoHistory';
 import TomatoHistory from './TomatoHistory/TomatoHistory';
 import Charts from './Charts/Charts';
+import statisticssvg from '../../icons/statistics.svg'
+
+
 
 const Wrapper = styled.div`
   ul {
@@ -17,6 +19,20 @@ const Wrapper = styled.div`
     }
   }
 `;
+
+const LiWrapper = styled.li`
+  border: 1px solid #e4e4e4;
+  display: flex;
+  min-height: 90px;
+  cursor: pointer;
+  box-shadow: 0 2px 0 hsl(0deg 0% 88% / 20%);
+  justify-content:center;
+  align-items: center;
+  >img{
+    width: 60px;
+    height: 60px;
+  }
+`
 
 interface IStatisticsProps {
     todos: any[];
@@ -43,16 +59,18 @@ class Statistics extends React.Component<IStatisticsProps, any> {
         return (
             <Wrapper>
                 <ul>
-                    <li>统计</li>
-                    <li>
+                    <LiWrapper>
+                        <img src={statisticssvg} alt=""/>
+                        统计
+                    </LiWrapper>
+                    <LiWrapper>
                         番茄历史
                         累计完成{this.finishedTomatoes.length}个任务
-                    </li>
-                    <li>
-                        任务历史
-                        累计完成{this.finishedTodos.length}个任务
-                        <Polygon data={this.dailyTodos} totalFinishedCount={this.finishedTodos.length}/>
-                    </li>
+                    </LiWrapper>
+                    <LiWrapper>
+                        Todo历史
+                        累计完成{this.finishedTodos.length}个Todo
+                    </LiWrapper>
                 </ul>
                 <Charts/>
                 <TodoHistory/>

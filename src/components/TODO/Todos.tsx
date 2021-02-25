@@ -15,7 +15,11 @@ const Wrapper = styled.div`
 
   > main {
     margin-top: 16px;
-    min-height: 130px;
+    height: 200px;
+    overflow-y: scroll;
+  }
+  >main::-webkit-scrollbar {
+    display: none;
   }
 `;
 

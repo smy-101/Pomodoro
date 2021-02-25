@@ -7,6 +7,7 @@ import axios from '../../config/axios';
 import TomatoList from './TomatoList';
 import _ from 'lodash';
 import dayjs from 'dayjs';
+import {Empty} from 'antd';
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -15,8 +16,16 @@ const Wrapper = styled.div`
   width: calc(50% - 8px);
   box-shadow: 0 2px 0 rgba(225, 225, 225, .2);
   background: #fff;
-
+  height: 282px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
+
+const Space= styled.div`
+ height: 20px;
+`
 
 interface ITomatoesProps {
     addTomato: (payload: any) => any;
@@ -48,13 +57,18 @@ class Tomatoes extends React.Component<ITomatoesProps, any> {
     };
 
     public render() {
+
+
         return (
             <Wrapper>
                 <TomatoAction startTomato={this.startTomato}
                               unfinishedTomato={this.unfinishedTomato}
                               updateTomato={this.props.updateTomato}
                 />
-                <TomatoList finishedTomato={this.finishedTomato}/>
+                {
+                    this.props.tomatoes.filter(t => t.description && t.ended_at && !t.aborted).length!==0 ?
+                        <TomatoList finishedTomato={this.finishedTomato}/> : <div><Space/><Empty/></div>
+                }
             </Wrapper>
         );
     }
