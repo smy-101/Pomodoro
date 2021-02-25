@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import TodoHistory from './TodoHistory/TodoHistory';
 import TomatoHistory from './TomatoHistory/TomatoHistory';
+import Charts from './Charts/Charts';
 
 const Wrapper = styled.div`
   ul {
@@ -53,6 +54,7 @@ class Statistics extends React.Component<IStatisticsProps, any> {
                         <Polygon data={this.dailyTodos} totalFinishedCount={this.finishedTodos.length}/>
                     </li>
                 </ul>
+                <Charts/>
                 <TodoHistory/>
                 <TomatoHistory/>
             </Wrapper>
