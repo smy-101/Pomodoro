@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-    BrowserRouter as Router,
-    Switch,
+    Router,
+    // Switch,
     Route,
 } from 'react-router-dom';
 import {Login} from './views/Login';
@@ -10,13 +10,13 @@ import HomePage from './views/HomePage';
 import TodoHistory from './components/Statistics/TodoHistory/TodoHistory';
 import TomatoHistory from './components/Statistics/TomatoHistory/TomatoHistory';
 import Charts from './components/Statistics/Charts/Charts';
+import history from './config/history'
+
 
 function App() {
     return (
-        <div className="App">
-            <Router>
+            <Router history={history}>
                 <div>
-                    <Switch>
                         <Route exact={true} path="/login" component={Login}/>
 
                         <Route exact={true} path="/signup" component={SignUp}/>
@@ -28,10 +28,8 @@ function App() {
                         <Route exact={true} path="/tomatoHistory" component={TomatoHistory}/>
 
                         <Route exact={true} path="/charts" component={Charts}/>
-                    </Switch>
                 </div>
             </Router>
-        </div>
     );
 }
 
