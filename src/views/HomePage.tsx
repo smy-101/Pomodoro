@@ -79,7 +79,7 @@ class HomePage extends React.Component<any, IIndexState> {
 
     // logout = () => {
     //     localStorage.setItem('x-token', '');
-    //     this.props.history.push('/login');
+    //     this.props.history.push('/Pomodoro/login');
     // };
 
     render() {

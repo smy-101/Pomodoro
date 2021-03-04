@@ -1,6 +1,7 @@
 import React from 'react';
 import {Menu, Dropdown, message} from 'antd';
 import {DownOutlined, PoweroffOutlined} from '@ant-design/icons';
+import history from '../config/history'
 
 function handleMenuClick(e: any) {
     message.info('Click on menu item.');
@@ -9,7 +10,7 @@ function handleMenuClick(e: any) {
 
 const logout = () => {
     localStorage.setItem('x-token', '');
-    window.location.href = '/login';
+    history.push('/login')
 };
 const menu = (
     <Menu onClick={handleMenuClick}>
