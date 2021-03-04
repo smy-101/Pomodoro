@@ -62,19 +62,31 @@ const Charts:React.FC<Props> = (props) => {
 
     let ydata=[];
     for (let i = 1; i <= dayjs(date).daysInMonth(); i++) {
-        if (dailyTodos()[`${date}-${i}`]===undefined){
+        let x:string;
+        if (i < 10) {
+            x = `${date}-0${i}`;
+        } else {
+            x = `${date}-${i}`;
+        }
+        if (dailyTodos()[x]===undefined){
             ydata.push(0);
         }else {
-            ydata.push(dailyTodos()[`${date}-${i}`].length)
+            ydata.push(dailyTodos()[x].length)
         }
     }
 
     let ydata1=[];
     for (let i = 1; i <= dayjs(date).daysInMonth(); i++) {
-        if (dailyFinishedTomato()[`${date}-${i}`]===undefined){
+        let x:string;
+        if (i < 10) {
+            x = `${date}-0${i}`;
+        } else {
+            x = `${date}-${i}`;
+        }
+        if (dailyFinishedTomato()[x]===undefined){
             ydata1.push(0);
         }else {
-            ydata1.push(dailyFinishedTomato()[`${date}-${i}`].length)
+            ydata1.push(dailyFinishedTomato()[x].length)
         }
     }
 
